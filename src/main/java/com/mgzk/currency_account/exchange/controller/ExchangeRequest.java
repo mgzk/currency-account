@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 import lombok.Data;
 
 @Data
-public class ExchangeRequest {
+class ExchangeRequest {
   @Positive
   private BigDecimal amount;
 

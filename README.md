@@ -14,8 +14,8 @@
 
 ### 2. Get account details
 
-`curl --location --request GET 'http://localhost:8080/accounts/1'`
+`curl --location --request GET 'http://localhost:8080/accounts/9141c4bf-8c14-4ffd-8a17-1e98c4b7fc74'`
 
 ### 3. Exchange currency
 
-`curl --location --request POST 'http://localhost:8080/accounts/1/exchanges' --header 'Content-Type: application/json' --data-raw '{"amount": 50,"sourceCurrency": "PLN","destinationCurrency": "USD"}'`
+`curl --location --request POST 'http://localhost:8080/accounts/9141c4bf-8c14-4ffd-8a17-1e98c4b7fc74/exchanges' --header 'Content-Type: application/json' --data-raw '{"amount": 50,"sourceCurrency": "PLN","destinationCurrency": "USD"}'`

@@ -2,6 +2,7 @@ package com.mgzk.currency_account.account.controller;
 
 import com.mgzk.currency_account.account.service.AccountService;
 import jakarta.validation.Valid;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,14 +21,14 @@ public class AccountController {
   private final AccountService accountService;
 
   @PostMapping
-  public ResponseEntity<Long> create(@Valid @RequestBody CreateAccountRequest request) {
-    Long id = accountService.create(request.getFirstName(), request.getLastName(), request.getInitialBalance().getAmount(), request.getInitialBalance().getCurrency());
+  public ResponseEntity<UUID> create(@Valid @RequestBody CreateAccountRequest request) {
+    UUID id = accountService.create(request.getFirstName(), request.getLastName(), request.getInitialBalance().getAmount(), request.getInitialBalance().getCurrency());
     return new ResponseEntity<>(id, HttpStatus.CREATED);
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<AccountResponse> get(@PathVariable Long id) {
-    AccountResponse response = accountService.findById(id);
+  public ResponseEntity<AccountResponse> get(@PathVariable UUID id) {
+    AccountResponse response = accountService.findByIdentifier(id);
     return new ResponseEntity<>(response, HttpStatus.OK);
   }
 }

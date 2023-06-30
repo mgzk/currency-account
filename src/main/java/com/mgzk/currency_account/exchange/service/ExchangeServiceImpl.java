@@ -8,6 +8,7 @@ import com.mgzk.currency_account.exchange.exception.InsufficientBalanceException
 import com.mgzk.currency_account.exchange.exception.InvalidCurrencyCodeException;
 import jakarta.transaction.Transactional;
 import java.math.BigDecimal;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,14 +22,14 @@ public class ExchangeServiceImpl implements ExchangeService {
 
   @Transactional
   @Override
-  public void exchange(Long accountId, BigDecimal sourceAmount, String sourceCurrencyCode, String destinationCurrencyCode) {
-    Account account = accountRepository.findById(accountId)
-      .orElseThrow(() -> new AccountNotFoundException(accountId));
+  public void exchange(UUID accountIdentifier, BigDecimal sourceAmount, String sourceCurrencyCode, String destinationCurrencyCode) {
+    Account account = accountRepository.findByIdentifier(accountIdentifier)
+      .orElseThrow(() -> new AccountNotFoundException(accountIdentifier));
 
     Balance sourceBalance = filter(account, sourceCurrencyCode);
 
     if (sourceBalance.getAmount().compareTo(sourceAmount) < 0) {
-      throw new InsufficientBalanceException(String.format("Insufficient balance on account: %d, currency: %s", accountId, sourceCurrencyCode));
+      throw new InsufficientBalanceException(String.format("Insufficient balance on account: %s, currency: %s", accountIdentifier, sourceCurrencyCode));
     }
 
     Balance destinationBalance = filter(account, destinationCurrencyCode);

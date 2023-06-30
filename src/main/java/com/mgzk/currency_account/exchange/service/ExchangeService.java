@@ -1,7 +1,8 @@
 package com.mgzk.currency_account.exchange.service;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 public interface ExchangeService {
-  void exchange(Long accountId, BigDecimal amount, String sourceCurrencyCode, String destinationCurrencyCode);
+  void exchange(UUID accountIdentifier, BigDecimal amount, String sourceCurrencyCode, String destinationCurrencyCode);
 }

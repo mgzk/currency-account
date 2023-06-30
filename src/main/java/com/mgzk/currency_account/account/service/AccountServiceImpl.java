@@ -11,6 +11,7 @@ import jakarta.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -26,10 +27,11 @@ public class AccountServiceImpl implements AccountService {
 
   @Transactional
   @Override
-  public Long create(String firstName, String lastName, BigDecimal initialAmount, String initialCurrency) {
+  public UUID create(String firstName, String lastName, BigDecimal initialAmount, String initialCurrency) {
     Set<Balance> balances = new HashSet<>();
 
     Account account = Account.builder()
+      .identifier(UUID.randomUUID())
       .firstName(firstName)
       .lastName(lastName)
       .balances(balances)
@@ -44,13 +46,13 @@ public class AccountServiceImpl implements AccountService {
       .findAny()
       .ifPresent(balance -> balance.setAmount(initialAmount));
 
-    return repository.save(account).getId();
+    return repository.save(account).getIdentifier();
   }
 
   @Override
-  public AccountResponse findById(Long id) {
-    Account account = repository.findById(id)
-      .orElseThrow(() -> new AccountNotFoundException(id));
+  public AccountResponse findByIdentifier(UUID identifier) {
+    Account account = repository.findByIdentifier(identifier)
+      .orElseThrow(() -> new AccountNotFoundException(identifier));
 
     return mapper.map(account);
   }

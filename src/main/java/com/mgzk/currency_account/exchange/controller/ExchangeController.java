@@ -2,6 +2,7 @@ package com.mgzk.currency_account.exchange.controller;
 
 import com.mgzk.currency_account.exchange.service.ExchangeService;
 import jakarta.validation.Valid;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ public class ExchangeController {
   private final ExchangeService exchangeService;
 
   @PostMapping
-  public ResponseEntity<Void> exchange(@PathVariable Long id,
+  public ResponseEntity<Void> exchange(@PathVariable UUID id,
                                        @Valid @RequestBody ExchangeRequest request) {
     exchangeService.exchange(id, request.getAmount(), request.getSourceCurrency(), request.getDestinationCurrency());
     return new ResponseEntity<>(HttpStatus.OK);
